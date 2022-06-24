@@ -42,8 +42,7 @@ jobs:
           # MYSQL_USER - create the specified user with superuser power for created database
           mysql user: root
           # MYSQL_PASSWORD - specified superuser password which user is power for created database
-          mysql root password: elql1004
-          mysql password: elql1004
+          mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
       - name: Build with Gradle
         run: ./gradlew build  
