@@ -28,6 +28,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.4.0
         with:
+          distribution: 'adopt-hotspot'
           java-version: '11'
           
       # Runs a single command using the runners shell
