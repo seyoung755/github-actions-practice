@@ -44,3 +44,5 @@ jobs:
       - name: Docker build
         run: |
           docker build -t spring-cicd .
+          docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
