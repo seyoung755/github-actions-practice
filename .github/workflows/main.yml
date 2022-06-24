@@ -34,7 +34,16 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        
+      
+      - name: Setup MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql database: actions
+          # MYSQL_USER - create the specified user with superuser power for created database
+          mysql user: root
+          # MYSQL_PASSWORD - specified superuser password which user is power for created database
+          mysql password: elql1004
+
       - name: Build with Gradle
         run: ./gradlew build  
 
