@@ -16,6 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: Setup Environment Variables
+        run: |
+          export PROFILE=prod
+          export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
+          export MYSQL_USER_PASSWORD=${{ secrets.MYSQL_USER_PASSWORD }}
+      
       - name: Setup Java JDK
         uses: actions/setup-java@v3.4.0
         with:
