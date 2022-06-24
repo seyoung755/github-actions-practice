@@ -9,18 +9,16 @@ on:
 
   workflow_dispatch:
 
+env:
+  MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+  MYSQL_USER_PASSWORD: ${{ secrets.MYSQL_USER_PASSWORD }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Setup Environment Variables
-        run: |
-          export PROFILE=prod
-          export MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}
-          export MYSQL_USER_PASSWORD=${{ secrets.MYSQL_USER_PASSWORD }}
       
       - name: Setup Java JDK
         uses: actions/setup-java@v3.4.0
@@ -52,3 +50,16 @@ jobs:
           docker build --build-arg MYSQL_DATABASE=${MYSQL_DATABASE} -t spring-cicd .
           docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+          
+      - name: deploy
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ec2-3-39-231-175.ap-northeast-2.compute.amazonaws.com
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
+            docker stop server
+            docker run -d --rm --name server -p 80:8080 spring-cicd
