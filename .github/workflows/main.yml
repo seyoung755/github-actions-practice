@@ -52,19 +52,15 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           
       - name: deploy!
-        run: |
-          TEMP=$(mktemp)
-          echo "${{ secrets.PRIVATE_KEY }}" > $TEMP
-          ssh -o 'StrictHostKeyChecking no' -i $TEMP ec2-15-164-164-226.ap-northeast-2.compute.amazonaws.com
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
-          docker stop server
-          docker run -d --rm --name server -p 80:8080 spring-cicd
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: 15.164.164.226
-#           username: ubuntu
-#           key: ${{ secrets.PRIVATE_KEY }}
-#           envs: GITHUB_SHA
-#           script: |
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ec2-15-164-164-226.ap-northeast-2.compute.amazonaws.com
+          username: ubuntu
+          key: ${{ secrets.PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
+            docker stop server
+            docker run -d --rm --name server -p 80:8080 spring-cicd
           
