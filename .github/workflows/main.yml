@@ -51,8 +51,8 @@ jobs:
           docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           
-      - name: Adding Known Hosts
-        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+#       - name: Adding Known Hosts
+#         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           
       - name: deploy!
         uses: appleboy/ssh-action@v0.1.4
