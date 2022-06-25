@@ -47,7 +47,7 @@ jobs:
           
       - name: Docker build
         run: |
-          docker build --build-arg MYSQL_DATABASE=${MYSQL_DATABASE} -t spring-cicd .
+          docker build -t spring-cicd .
           docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
       
@@ -70,5 +70,6 @@ jobs:
             ls -al
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
-            sudo docker run -d --rm --name server -p 80:8080 spring-cicd
+            sudo docker stop server
+            sudo docker run -d --rm -e MYSQL_DATABASE=$MYSQL_DATABASE -e MYSQL_USER_PASSWORD=$MYSQL_USER_PASSWORD --name server -p 80:8080 spring-cicd
           
