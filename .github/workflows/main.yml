@@ -51,7 +51,7 @@ jobs:
           docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           
-      - name: deploy
+      - name: deploy!
         uses: appleboy/ssh-action@master
         with:
           host: ec2-15-164-164-226.ap-northeast-2.compute.amazonaws.com
