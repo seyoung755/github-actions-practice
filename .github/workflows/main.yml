@@ -52,7 +52,7 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           
       - name: deploy!
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@master
         with:
           host: ec2-15-164-164-226.ap-northeast-2.compute.amazonaws.com
           username: ubuntu
