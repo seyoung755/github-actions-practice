@@ -68,7 +68,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             ls -al
-            source ./bashrc
+            source ./.bashrc
             echo $PROFILE
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
