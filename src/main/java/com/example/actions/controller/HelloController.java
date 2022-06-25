@@ -18,6 +18,6 @@ public class HelloController {
 
     @GetMapping("/goodbye")
     public String goodbye() {
-        return "test is over";
+        return "test is over!";
     }
 }
