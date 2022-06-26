@@ -37,7 +37,7 @@ jobs:
           mysql root password: ${{ secrets.MYSQL_ROOT_PASSWORD }}
 
       - name: Build with Gradle
-        run: ./gradlew build  
+        run: ./gradlew bootJar  
       
       - name: Docker Login
         uses: docker/login-action@v2.0.0
@@ -70,5 +70,5 @@ jobs:
             sudo docker ps -a -q -f "name=server" | grep -q . && docker stop server && docker rm server | true
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
-            sudo docker run  -d --rm -e MYSQL_DATABASE=$MYSQL_DATABASE -e MYSQL_USER_PASSWORD=$MYSQL_USER_PASSWORD --name server -p 80:8080 spring-cicd
+            sudo docker run -d -e MYSQL_DATABASE=$MYSQL_DATABASE -e MYSQL_USER_PASSWORD=$MYSQL_USER_PASSWORD --name server -p 80:8080 spring-cicd
           
