@@ -50,7 +50,6 @@ jobs:
           docker build -t spring-cicd .
           docker tag spring-cicd ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
-          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
       
 #       - name: Deploy
 #         run: |
@@ -69,9 +68,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker ps -a -q -f "name=server" | grep -q . && docker stop server && docker rm server | true
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7}
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/spring-cicd:${GITHUB_SHA::7} spring-cicd
             sudo docker run  -d --rm -e MYSQL_DATABASE=$MYSQL_DATABASE -e MYSQL_USER_PASSWORD=$MYSQL_USER_PASSWORD --name server -p 80:8080 spring-cicd
-            sudo docker rmi -f $(docker images -f "dangling=true" -q) || true
           
