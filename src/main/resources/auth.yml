@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://13.125.232.208:3306/issuetracker
+    username: suntory
+    password: elql1004
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+oauth:
+  redirect_url: http://13.125.232.208
+  github:
+    client_id: 1b8b53e045215124bca5
+    client_secret: 0618de8777542f7759d48687b67456a7ccef4db2
+    redirect_url: https://github.com/login/oauth/authorize?client_id=1b8b53e045215124bca5&scope=user:email
+  google:
+    client_id: 886648386281-q6205r09trl1iu29qa09b2sdufbvhgth.apps.googleusercontent.com
+    client_secret: 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
+    redirect_url: https://accounts.google.com/o/oauth2/v2/auth?client_id=886648386281-q6205r09trl1iu29qa09b2sdufbvhgth.apps.googleusercontent.com&redirect_uri=http://13.125.232.208/oauth/google/callback&response_type=code&scope=profile email
+auth:
+  jwt:
+    secret_key: seatory

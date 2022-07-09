@@ -7,3 +7,4 @@ spring:
     url: jdbc:mysql://localhost:3306/actions
     username: root
     password: elql1004
+
